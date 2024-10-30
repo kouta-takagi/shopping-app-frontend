@@ -23,18 +23,26 @@ export default async function Home() {
           </Link>
         </div>
       </header>
-      <div>
+
+      <div className="my-20">
         {products.map((product: ProductType) => {
           return (
-            <li key={product.id}>
-              <Link href={`products/${product.id}`}>
-                {product.name}
-                {product.price}
+            <div
+              key={product.id}
+              className="py-8 px-16 my-8 mx-60 bg-white hover:bg-slate-200 rounded-lg"
+            >
+              <Link
+                href={`products/${product.id}`}
+                className="flex justify-between no-underline text-black"
+              >
+                <div>{product.name}</div>
+                <div>{Math.floor(product.price)}円</div>
               </Link>
-            </li>
+            </div>
           );
         })}
       </div>
+
       <footer></footer>
     </>
   );
