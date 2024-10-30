@@ -14,10 +14,14 @@ const config: Config = {
       },
     },
   },
+  corePlugins: {
+    aspectRatio: false,
+  },
   plugins: [
     require("daisyui"),
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
+    require("@tailwindcss/aspect-ratio"),
   ],
 };
 export default config;
