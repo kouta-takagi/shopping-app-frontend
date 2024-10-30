@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import type { ProductType } from "@/types/Product";
+import type { ProductType } from "@/app/types/Product";
 
 export default async function Home() {
   const products: ProductType[] = await fetch(
@@ -25,6 +25,7 @@ export default async function Home() {
       </header>
 
       <div className="my-20">
+        <div className="mx-20 font-bold text-2xl">商品一覧</div>
         {products.map((product: ProductType) => {
           return (
             <div
