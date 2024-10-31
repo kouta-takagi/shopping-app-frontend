@@ -14,7 +14,6 @@ export default function Home() {
       const products = await fetch("http://localhost:3000/products").then(
         (res) => res.json()
       );
-
       setProducts(products);
     };
 
@@ -38,48 +37,59 @@ export default function Home() {
 
   return (
     <>
-      <header>
-        <div className="flex justify-between w-full px-6 pt-4">
-          <Link href="/" className="font-bold text-xl no-underline text-black">
+      <header className="bg-blue-600 text-white py-4 shadow-md">
+        <div className="flex justify-between items-center w-full max-w-5xl mx-auto px-6">
+          <Link href="/" className="font-bold text-2xl">
             通販アプリ
           </Link>
           <Link href="/cart_items">
-            <FontAwesomeIcon
-              icon={faCartShopping}
-              className="size-6 text-black"
-            />
+            <FontAwesomeIcon icon={faCartShopping} className="text-2xl" />
           </Link>
         </div>
       </header>
 
-      <div className="my-20">
-        <div className="mx-20 font-bold text-2xl">商品一覧</div>
-        {products ? (
-          products.map((product: ProductType) => {
-            return (
-              <div
-                key={product.id}
-                className="py-8 px-16 my-8 mx-60 bg-white hover:bg-slate-200 rounded-lg"
-              >
-                <Link
-                  href={`products/${product.id}`}
-                  className="flex justify-between no-underline text-black"
+      <main className="my-12 px-6">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="font-bold text-3xl mb-8 text-gray-800">商品一覧</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {products ? (
+              products.map((product: ProductType) => (
+                <div
+                  key={product.id}
+                  className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition duration-300"
                 >
-                  <div>{product.name}</div>
-                  <div>{Math.floor(product.price)}円</div>
-                </Link>
-                <button onClick={() => handlePost(product.id)}>
-                  カートに追加
-                </button>
-              </div>
-            );
-          })
-        ) : (
-          <div>Loading...</div>
-        )}
-      </div>
+                  <Link
+                    href={`/products/${product.id}`}
+                    className="flex flex-col h-full no-underline text-gray-900"
+                  >
+                    <div className="text-lg font-semibold mb-2">
+                      {product.name}
+                    </div>
+                    <div className="text-xl font-bold mb-4">
+                      {Math.floor(product.price)}円
+                    </div>
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handlePost(product.id);
+                      }}
+                      className="mt-auto py-2 px-4 bg-blue-600 text-white rounded hover:bg-blue-700"
+                    >
+                      カートに追加
+                    </button>
+                  </Link>
+                </div>
+              ))
+            ) : (
+              <div>Loading...</div>
+            )}
+          </div>
+        </div>
+      </main>
 
-      <footer></footer>
+      <footer className="bg-blue-600 text-white py-6 mt-12">
+        <div className="text-center">&copy; 2024 通販アプリ</div>
+      </footer>
     </>
   );
 }
