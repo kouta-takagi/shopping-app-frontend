@@ -3,7 +3,8 @@
 import type { ProductType } from "@/app/types/Product";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 
 type ProductProps = {
@@ -43,7 +44,7 @@ export default function ProductShow({ params }: ProductProps) {
         },
         body: JSON.stringify({ product_id: productId, quantity: count }),
       });
-      router.push("http://localhost:3001");
+      router.push("http://localhost:3001/cart_items");
     } catch (e) {
       console.log("カートへの登録に失敗しました", e);
     }
@@ -57,7 +58,7 @@ export default function ProductShow({ params }: ProductProps) {
             通販アプリ
           </Link>
           <Link href="/cart_items">
-            <span className="text-lg">カート</span>
+            <FontAwesomeIcon icon={faCartShopping} className="text-2xl" />
           </Link>
         </div>
       </header>

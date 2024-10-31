@@ -2,6 +2,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { CartItemType } from "@/app/types/CartItem";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 export default function CartItemIndex() {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
@@ -76,7 +78,7 @@ export default function CartItemIndex() {
             通販アプリ
           </Link>
           <Link href="/cart_items">
-            <span className="text-lg">カート</span>
+            <FontAwesomeIcon icon={faCartShopping} className="text-2xl" />
           </Link>
         </div>
       </header>
