@@ -17,6 +17,48 @@ export default function CartItemIndex() {
     fetchCartItems();
   }, []);
 
+  const handleChange = async (value: number, cartItemId: number) => {
+    if (value > 0) {
+      try {
+        const res = await fetch(
+          `http://localhost:3000/cart_items/${cartItemId}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ id: cartItemId, quantity: value }),
+          }
+        );
+
+        const data = await res.json();
+        setCartItems(data);
+      } catch (e) {
+        console.log("カートへの編集に失敗しました", e);
+      }
+    }
+  };
+
+  const handleDelete = async (cartItemId: number) => {
+    try {
+      const res = await fetch(
+        `http://localhost:3000/cart_items/${cartItemId}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id: cartItemId }),
+        }
+      );
+
+      const data = await res.json();
+      setCartItems(data);
+    } catch (e) {
+      console.log("カート商品の削除に失敗しました", e);
+    }
+  };
+
   function calcSum() {
     const sum = cartItems.reduce(
       (sum, current) => sum + current.product.price * current.quantity,
@@ -42,8 +84,19 @@ export default function CartItemIndex() {
               >
                 <div>{cart_item.product.name}</div>
                 <div>{Math.floor(cart_item.product.price)}円</div>
-                <div>数量：{cart_item.quantity}</div>
               </Link>
+              <div>
+                数量：{" "}
+                <input
+                  type="number"
+                  value={cart_item.quantity}
+                  onChange={(e) =>
+                    handleChange(Number(e.target.value), cart_item.id)
+                  }
+                />
+                個
+              </div>
+              <button onClick={() => handleDelete(cart_item.id)}>削除</button>
             </div>
           );
         })}
