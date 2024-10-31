@@ -48,7 +48,10 @@ export default function CartItemIndex() {
           );
         })}
       </div>
-      <div>合計：{calcSum()}</div>
+      <div>合計：{calcSum()}円</div>
+      <Link href="/" className="text-black mt-10">
+        一覧に戻る
+      </Link>
     </>
   );
 }

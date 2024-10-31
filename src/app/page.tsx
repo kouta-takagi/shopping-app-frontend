@@ -1,12 +1,40 @@
+"use client";
+
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 import type { ProductType } from "@/app/types/Product";
+import { useEffect, useState } from "react";
 
-export default async function Home() {
-  const products: ProductType[] = await fetch(
-    "http://localhost:3000/products"
-  ).then((res) => res.json());
+export default function Home() {
+  const [products, setProducts] = useState<ProductType[]>([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const products = await fetch("http://localhost:3000/products").then(
+        (res) => res.json()
+      );
+
+      setProducts(products);
+    };
+
+    fetchProducts();
+  }, []);
+
+  const handlePost = async (productId: number) => {
+    try {
+      await fetch("http://localhost:3000/cart_items", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ product_id: productId, quantity: 1 }),
+      });
+      console.log("カートへの登録に成功しました");
+    } catch (e) {
+      console.log("カートへの登録に失敗しました", e);
+    }
+  };
 
   return (
     <>
@@ -40,6 +68,9 @@ export default async function Home() {
                   <div>{product.name}</div>
                   <div>{Math.floor(product.price)}円</div>
                 </Link>
+                <button onClick={() => handlePost(product.id)}>
+                  カートに追加
+                </button>
               </div>
             );
           })
