@@ -47,6 +47,7 @@ export default function CartItemIndex() {
                   id={cartItem.id}
                   quantity={cartItem.quantity}
                   product={cartItem.product}
+                  setCartItems={setCartItems}
                 ></CartItem>
               ))
             ) : (

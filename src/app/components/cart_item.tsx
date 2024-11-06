@@ -3,7 +3,16 @@
 import Link from "next/link";
 import type { CartItemType } from "@/app/types/CartItem";
 
-export default function CartItem({ id, quantity, product }: CartItemType) {
+type CartItemProps = CartItemType & {
+  setCartItems: React.Dispatch<React.SetStateAction<CartItemType[]>>;
+};
+
+export default function CartItem({
+  id,
+  quantity,
+  product,
+  setCartItems,
+}: CartItemProps) {
   const handleChange = async (value: number, cartItemId: number) => {
     if (value > 0) {
       try {
