@@ -6,9 +6,11 @@ import type { CartItemType } from "@/app/types/CartItem";
 import Header from "../components/header";
 import Footer from "../components/footer";
 import CartItem from "../components/cart_item";
+import { URLSearchParams } from "next/dist/compiled/@edge-runtime/primitives/url";
 
 export default function CartItemIndex() {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
+  const message = URLsearchParams.message;
 
   useEffect(() => {
     const fetchCartItems = async () => {
@@ -39,6 +41,7 @@ export default function CartItemIndex() {
           <h2 className="font-bold text-3xl mb-8 text-gray-800">
             あなたのカート
           </h2>
+          {message && <div className="message">{message}</div>}
           <div className="grid gap-8">
             {cartItems.length > 0 ? (
               cartItems.map((cartItem: CartItemType) => (

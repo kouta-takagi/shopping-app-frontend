@@ -2,8 +2,11 @@
 
 import Link from "next/link";
 import type { ProductType } from "@/app/types/Product";
+import { useRouter } from "next/navigation";
 
 export default function Product({ id, name, price }: ProductType) {
+  const router = useRouter();
+
   const handlePost = async (productId: number) => {
     try {
       await fetch("http://localhost:3000/cart_items", {
@@ -14,6 +17,10 @@ export default function Product({ id, name, price }: ProductType) {
         body: JSON.stringify({ product_id: productId, quantity: 1 }),
       });
       console.log("カートへの登録に成功しました");
+      const url = new URL("http://localhost:3001/cart_items");
+      url.searchParams.append("message", "カートに商品が追加されました。");
+
+      router.push(url.toString());
     } catch (e) {
       console.log("カートへの登録に失敗しました", e);
     }
