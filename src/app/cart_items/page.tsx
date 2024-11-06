@@ -1,9 +1,11 @@
 "use client";
+
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import type { CartItemType } from "@/app/types/CartItem";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
+import Header from "../components/header";
+import Footer from "../components/footer";
+import CartItem from "../components/cart_item";
 
 export default function CartItemIndex() {
   const [cartItems, setCartItems] = useState<CartItemType[]>([]);
@@ -19,48 +21,6 @@ export default function CartItemIndex() {
     fetchCartItems();
   }, []);
 
-  const handleChange = async (value: number, cartItemId: number) => {
-    if (value > 0) {
-      try {
-        const res = await fetch(
-          `http://localhost:3000/cart_items/${cartItemId}`,
-          {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ id: cartItemId, quantity: value }),
-          }
-        );
-
-        const data = await res.json();
-        setCartItems(data);
-      } catch (e) {
-        console.log("カートへの編集に失敗しました", e);
-      }
-    }
-  };
-
-  const handleDelete = async (cartItemId: number) => {
-    try {
-      const res = await fetch(
-        `http://localhost:3000/cart_items/${cartItemId}`,
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ id: cartItemId }),
-        }
-      );
-
-      const data = await res.json();
-      setCartItems(data);
-    } catch (e) {
-      console.log("カート商品の削除に失敗しました", e);
-    }
-  };
-
   function calcSum() {
     const sum = cartItems.reduce(
       (sum, current) => sum + current.product.price * current.quantity,
@@ -72,16 +32,7 @@ export default function CartItemIndex() {
 
   return (
     <>
-      <header className="bg-blue-600 text-white py-4 shadow-md">
-        <div className="flex justify-between items-center w-full max-w-5xl mx-auto px-6">
-          <Link href="/" className="font-bold text-2xl">
-            通販アプリ
-          </Link>
-          <Link href="/cart_items">
-            <FontAwesomeIcon icon={faCartShopping} className="text-2xl" />
-          </Link>
-        </div>
-      </header>
+      <Header />
 
       <main className="my-12 px-6">
         <div className="max-w-5xl mx-auto">
@@ -91,40 +42,12 @@ export default function CartItemIndex() {
           <div className="grid gap-8">
             {cartItems.length > 0 ? (
               cartItems.map((cartItem: CartItemType) => (
-                <div
+                <CartItem
                   key={cartItem.id}
-                  className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition duration-300"
-                >
-                  <Link
-                    href={`/products/${cartItem.product.id}`}
-                    className="flex justify-between items-center no-underline text-gray-900 mb-4"
-                  >
-                    <div className="text-lg font-semibold">
-                      {cartItem.product.name}
-                    </div>
-                    <div className="text-xl font-bold">
-                      {Math.floor(cartItem.product.price)}円
-                    </div>
-                  </Link>
-                  <div className="flex items-center space-x-4">
-                    <label className="text-gray-700 font-medium">数量：</label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={cartItem.quantity}
-                      onChange={(e) =>
-                        handleChange(Number(e.target.value), cartItem.id)
-                      }
-                      className="w-16 px-2 py-1 border rounded"
-                    />
-                    <button
-                      onClick={() => handleDelete(cartItem.id)}
-                      className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-                    >
-                      削除
-                    </button>
-                  </div>
-                </div>
+                  id={cartItem.id}
+                  quantity={cartItem.quantity}
+                  product={cartItem.product}
+                ></CartItem>
               ))
             ) : (
               <div className="text-gray-700">カートは空です</div>
@@ -143,9 +66,7 @@ export default function CartItemIndex() {
         </div>
       </main>
 
-      <footer className="bg-blue-600 text-white py-6 mt-12">
-        <div className="text-center">&copy; 2024 通販アプリ</div>
-      </footer>
+      <Footer />
     </>
   );
 }

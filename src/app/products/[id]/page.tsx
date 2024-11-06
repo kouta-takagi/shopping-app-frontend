@@ -1,19 +1,18 @@
 "use client";
 
+import Footer from "@/app/components/footer";
+import Header from "@/app/components/header";
 import type { ProductType } from "@/app/types/Product";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
-type ProductProps = {
-  params: {
-    id: number;
-  };
-};
-
-export default function ProductShow({ params }: ProductProps) {
+export default function ProductShow({
+  params,
+}: {
+  params: Promise<{ id: number }>;
+}) {
+  const { id } = use(params);
   const router = useRouter();
   const [product, setProduct] = useState<ProductType | undefined>();
   const [count, setCount] = useState<number>(1);
@@ -21,7 +20,7 @@ export default function ProductShow({ params }: ProductProps) {
   useEffect(() => {
     const fetchProduct = async () => {
       const product: ProductType = await fetch(
-        `http://localhost:3000/products/${params.id}`
+        `http://localhost:3000/products/${id}`
       ).then((res) => res.json());
       setProduct(product);
     };
@@ -52,16 +51,7 @@ export default function ProductShow({ params }: ProductProps) {
 
   return (
     <>
-      <header className="bg-blue-600 text-white py-4 shadow-md">
-        <div className="flex justify-between items-center w-full max-w-5xl mx-auto px-6">
-          <Link href="/" className="font-bold text-2xl">
-            通販アプリ
-          </Link>
-          <Link href="/cart_items">
-            <FontAwesomeIcon icon={faCartShopping} className="text-2xl" />
-          </Link>
-        </div>
-      </header>
+      <Header />
 
       <main className="my-12 px-6">
         <div className="max-w-5xl mx-auto">
@@ -106,9 +96,7 @@ export default function ProductShow({ params }: ProductProps) {
         </div>
       </main>
 
-      <footer className="bg-blue-600 text-white py-6 mt-12">
-        <div className="text-center">&copy; 2024 通販アプリ</div>
-      </footer>
+      <Footer />
     </>
   );
 }
