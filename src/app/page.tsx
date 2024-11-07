@@ -23,24 +23,21 @@ export default function Home() {
   return (
     <>
       <Header />
-
-      <main className="my-12 px-6">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="font-bold text-3xl mb-8 text-gray-800">商品一覧</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products ? (
-              products.map((product: ProductType) => (
-                <Product
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  price={product.price}
-                />
-              ))
-            ) : (
-              <div>Loading...</div>
-            )}
-          </div>
+      <main>
+        <h2 className="text-black ml-32">商品一覧</h2>
+        <div className="grid grid-cols-3 gap-8 mx-36">
+          {products ? (
+            products.map((product: ProductType) => (
+              <Product
+                key={product.id}
+                id={product.id}
+                name={product.name}
+                price={product.price}
+              />
+            ))
+          ) : (
+            <div>Loading...</div>
+          )}
         </div>
       </main>
 

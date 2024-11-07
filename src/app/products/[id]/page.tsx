@@ -43,7 +43,9 @@ export default function ProductShow({
         },
         body: JSON.stringify({ product_id: productId, quantity: count }),
       });
-      router.push("http://localhost:3001/cart_items");
+      router.push(
+        "http://localhost:3001/cart_items?message=カートに商品を追加しました"
+      );
     } catch (e) {
       console.log("カートへの登録に失敗しました", e);
     }
@@ -53,48 +55,44 @@ export default function ProductShow({
     <>
       <Header />
 
-      <main className="my-12 px-6">
-        <div className="max-w-5xl mx-auto">
-          <h2 className="font-bold text-3xl mb-8 text-gray-800">商品詳細</h2>
-          {product ? (
-            <div className="p-6 bg-white rounded-lg shadow hover:shadow-lg transition duration-300">
-              <div className="flex justify-between items-center mb-4">
-                <p className="text-2xl font-semibold text-black">
-                  {product.name}
-                </p>
-                <p className="text-xl font-bold">
-                  {Math.floor(product.price)}円
-                </p>
-              </div>
-              <div className="flex items-center space-x-4 mb-4">
-                <label className="text-gray-700 font-medium">数量：</label>
-                <input
-                  type="number"
-                  min="1"
-                  value={count}
-                  onChange={(e) => handleChange(Number(e.target.value))}
-                  className="w-16 px-2 py-1 border rounded"
-                />
-              </div>
-              <button
-                onClick={() => handlePost(product.id, count)}
-                className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-              >
-                カートに追加
-              </button>
+      <div>
+        <h2 className="text-black ml-32">商品詳細</h2>
+        {product ? (
+          <div className="mx-36 border rounded-lg px-10 pt-6 pb-10 bg-white">
+            <div className="font-bold">
+              <p className="text-xl mb-4">{product.name}</p>
+              <p className="text-lg mb-4">{Math.floor(product.price)}円</p>
             </div>
-          ) : (
-            <div className="text-gray-700">Loading...</div>
-          )}
+            <div className="">
+              <label className="">数量：</label>
+              <input
+                type="number"
+                min="1"
+                value={count}
+                onChange={(e) => handleChange(Number(e.target.value))}
+                className="input bg-white border border-black mb-4"
+              />
+            </div>
+            <button
+              onClick={() => handlePost(product.id, count)}
+              className="px-6 py-4 bg-blue-400 rounded-lg font-bold hover:bg-blue-600 transition-all duration-300 mt-2 text-black no-underline"
+            >
+              カートに追加
+            </button>
+          </div>
+        ) : (
+          <div className="text-black text-xl pb-8">Loading...</div>
+        )}
 
+        <div className="my-10">
           <Link
             href="/"
-            className="inline-block mt-10 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            className="mx-36 px-6 py-4 bg-blue-400 rounded-lg font-bold hover:bg-blue-600 transition-all duration-300 text-black no-underline"
           >
             一覧に戻る
           </Link>
         </div>
-      </main>
+      </div>
 
       <Footer />
     </>

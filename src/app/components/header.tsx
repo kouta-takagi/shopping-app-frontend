@@ -4,13 +4,19 @@ import { faCartShopping } from "@fortawesome/free-solid-svg-icons";
 
 export default function Header() {
   return (
-    <header className="bg-blue-600 text-white py-4 shadow-md">
-      <div className="flex justify-between items-center w-full max-w-5xl mx-auto px-6">
-        <Link href="/" className="font-bold text-2xl">
+    <header className="py-5 bg-blue-600">
+      <div className="flex justify-between">
+        <Link
+          href="/"
+          className="font-bold text-2xl text-black no-underline ml-10"
+        >
           通販アプリ
         </Link>
         <Link href="/cart_items">
-          <FontAwesomeIcon icon={faCartShopping} className="text-2xl" />
+          <FontAwesomeIcon
+            icon={faCartShopping}
+            className="text-2xl text-black mr-10"
+          />
         </Link>
       </div>
     </header>
